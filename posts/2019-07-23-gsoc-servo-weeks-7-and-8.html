@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>georgeroman - GSoC with Servo - weeks 7 and 8</title>
+        <link rel="stylesheet" href="../css/default.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">George's blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>GSoC with Servo - weeks 7 and 8</h1>
+            <article>
+    <section class="header">
+        Posted on July 23, 2019
+        
+            by George Roman
+        
+    </section>
+    <section>
+        <p>Two more weeks have passed and things are slowly and surely improving.</p>
+<p>In the beginning of the seventh week I investigated why the <a href="https://github.com/servo/servo/pull/23585"><code>tag name</code> selector PR</a> was failing the tests, given that these were passed when run locally. The issue seemed to be a missing <code>HOST_FILE</code> environment variable, which provides mappings from the hostnames used by the HTTP testing server to appropriate IP addresses. This was an easy fix, as the needed file already <a href="https://github.com/servo/servo/blob/master/tests/wpt/hosts">existed</a> in the codebase. However, since this issue affected all the tests that were dependent on the HTTP testing server, the fix for it caused a lot of unexpected tests results. Most of them were unexpected passes, but a few were unexpected <a href="https://build.servo.org/builders/linux-rel-wpt/builds/12913/steps/shell__5/logs/filtered-wdspec-errorsummary.log">errors occurring at the setup stage</a>, that is before the actual tests are actually run.</p>
+<p>Basically, when reaching <a href="https://github.com/servo/servo/blob/4470035f7540602a011b87ec25f4cbb39194c7d5/tests/wpt/web-platform-tests/webdriver/tests/support/fixtures.py#L156">this</a> line, the session, which is explicitly checked to exist a few lines before, is inexistent. I spent some good time trying to figure out why this strange anomaly occurred.</p>
+<p>The issue was caused by the <a href="https://github.com/servo/servo/blob/master/tests/wpt/web-platform-tests/webdriver/tests/delete_session/delete.py"><code>delete_session</code></a> tests, which somehow <a href="https://github.com/servo/servo/blob/4470035f7540602a011b87ec25f4cbb39194c7d5/tests/wpt/web-platform-tests/webdriver/tests/delete_session/delete.py#L19">end</a> the current session without notifying the test harness of it. Thus, we are left with the id of a previous session, which the test harness interprets as a valid session, although in reality there is no existing session. Trying to execute commands on a session-less WebDriver instance triggers the <code>Session not created</code> errors, as in the described issue.</p>
+<p>As a quick fix for this I simply disabled the tests for <code>DeleteSession</code>. This issue already took a lot of time to fix so I’ll come back to figuring out exactly how it happens and fixing it later when more time is available.</p>
+<p>These weeks, I also <a href="https://github.com/servo/servo/pull/23805">started</a> to work on implementing support for <a href="https://w3c.github.io/webdriver/#actions">actions</a> and the associated <a href="https://w3c.github.io/webdriver/#perform-actions"><code>PerformActions</code></a> and <a href="https://w3c.github.io/webdriver/#release-actions"><code>ReleaseActions</code></a> commands. I already have a working version which supports the <code>pause</code>, <code>keyUp</code> and <code>keyDown</code> actions, but it needs to be polished a bit before it’s ready for production.</p>
+<p>One unfortunate thing with the <code>PerformActions</code> and <code>ReleaseActions</code> commands is that their associated <code>wpt</code> tests all have dependencies on other WebDriver commands, some of them not being yet implemented in Servo. So, most of the tests fail due to this, and the only way to check the implementation is by manually testing it. One available option, though, is to write tests that are independent of other commands.</p>
+<p>Besides these, I also finished implementing <a href="https://w3c.github.io/webdriver/#get-element-property"><code>GetElementProperty</code></a> and <a href="https://w3c.github.io/webdriver/#link-text"><code>link text</code></a> and <a href="https://w3c.github.io/webdriver/#partial-link-text"><code>partial link text</code></a> selectors for <code>FindElement</code> and related commands. The PRs for these can be found <a href="https://github.com/servo/servo/pull/23820">here</a> and <a href="https://github.com/servo/servo/pull/23745">here</a>.</p>
+<p>These two weeks have been very productive. A lot of existing PRs are being finalized and the whole implementation is getting better, more stable and more compliant.</p>
+<p>Next, I will be mainly focusing on adding further support for the <a href="https://w3c.github.io/webdriver/#actions">actions</a> and <a href="https://w3c.github.io/webdriver/#interaction">interaction</a> commands, as well as getting to an end with the support for returning arrays and arbitrary objects from WebDriver.</p>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+    </body>
+</html>
