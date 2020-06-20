@@ -6,18 +6,13 @@
 </script>
 
 <svelte:head>
-	<title>{status}</title>
+  <title>{error.message}</title>
 </svelte:head>
 
 <div class="siimple-content--small">
-  <div class="siimple-card siimple--mx-2 siimple--my-2">
-    <div class="siimple-card-body">
-      <div class="siimple-card-title">{status}: {error.message}</div>
-      <div>
-        {#if dev && error.stack}
-          <pre>{error.stack}</pre>
-        {/if}
-      </div>
+  <div class="siimple--mx-4 siimple--my-4">
+    <div class="siimple-h3">
+      {status}: {error.message}
     </div>
   </div>
 </div>

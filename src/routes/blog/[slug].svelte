@@ -21,15 +21,13 @@
 	<title>{post.title}</title>
 </svelte:head>
 
-<div class='content'>
-</div>
 <div class="siimple-content--small">
-  <div class="siimple-card siimple--mx-2 siimple--my-2">
-    <div class="siimple-card-body">
-      <div class="siimple-card-title">{post.title}</div>
-      <div>
-        {@html post.html}
-      </div>
+  <div class="siimple--mx-4 siimple--my-4">
+    <div class="siimple-h3">
+      {post.title}
+    </div>
+    <div>
+      {@html post.html}
     </div>
   </div>
 </div>

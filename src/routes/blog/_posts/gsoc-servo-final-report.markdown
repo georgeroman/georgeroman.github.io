@@ -29,7 +29,7 @@ All the code related to my project is available at different sources:
 [Servo PRs](https://github.com/servo/servo/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Ageorgeroman+merged%3A%3E%3D2019-05-23),
 [wpt PRs](https://github.com/web-platform-tests/wpt/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Ageorgeroman+merged%3A%3E%3D2019-05-15) and
 webdriver patches ([D39110](https://phabricator.services.mozilla.com/D39110), [D39632](https://phabricator.services.mozilla.com/D39632), [D39784](https://phabricator.services.mozilla.com/D39784)).
-Also, detailed description of all the work I've done is available [here](https://georgeroman.github.io/archive.html) in the form of weekly or biweekly blog posts.
+Also, detailed description of all the work I've done is available [here](https://georgeroman.github.io) in the form of weekly or biweekly blog posts.
 
 As final words, contributing to Servo as part of GSoC was an amazing experience and I learned a lot from it.
 I want to specially thank my mentor, Josh Matthews, for his support throughout the project.

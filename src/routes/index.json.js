@@ -1,4 +1,4 @@
-import getAllPosts from './_posts';
+import getAllPosts from './blog/_posts';
 
 export async function get(req, res) {
   const posts = await getAllPosts();
