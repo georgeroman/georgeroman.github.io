@@ -17,7 +17,7 @@
 	<title>Home</title>
 </svelte:head>
 
-<div class="siimple-content--small">
+<div class="siimple-content--medium">
   <div class="siimple-navbar">
     <div class="siimple-navbar-title">George Roman</div>
     <div class="siimple--float-right">
